@@ -41,7 +41,7 @@ public class WordsTemplate {
 	    while (it.hasNext()) {
 	        Map.Entry<String,Integer> pair = (Map.Entry<String,Integer>)it.next();
 	        d.add(pair.getKey());
-	        it.remove(); // avoids a ConcurrentModificationException
+	        it.remove(); 
 	    }
 		return d;
 	}

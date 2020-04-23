@@ -1,13 +1,8 @@
 package parser;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,39 +16,15 @@ import other.DirectIndexJsonTemplate;
 public class DirectIndex {
 	private static DirectIndexJsonTemplate getFileTemplate(String path){
 		DirectIndexJsonTemplate di = new DirectIndexJsonTemplate();
-		Writer inWriter = null;
 		File file = new File(path);
 		String filename = file.getName();
-
-		String[] aux = filename.split("\\.");
-
 		String absolutePath = file.getAbsolutePath();
-
 		String filePath = absolutePath.substring(0,absolutePath.lastIndexOf(File.separator));
-		filename = aux[0];
-		if(aux[1].equals("html")){
-			di.setFileName(absolutePath);
-			try {
-				inWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath+"/"+filename+".txt"), "utf-8"));
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Parser.parseInformations(inWriter, file);
-			try {
-				
-				inWriter.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			File f = new File(filePath+"/"+filename+".txt");
-			HashMap<String, Integer> w = Parser.parseText(f);
-			di.setWords(w);
-		}
+		//System.out.println(filename + absolutePath + " sau " + filePath +"/"+filename);
+		File ff = new File(filePath+"/"+filename);
+		HashMap<String, Integer> ww = Parser.parseText(ff);
+		di.setFileName(absolutePath);
+		di.setWords(ww);
 		return di;
 	}
 	private static List<DirectIndexJsonTemplate> getListOfFileTemplates(List<String> paths){
