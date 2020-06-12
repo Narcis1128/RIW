@@ -24,7 +24,8 @@ public class ParseFile {
 		String ret = "";
 		if(robots == null)
 		{
-			System.out.println("Nu exista tag-ul meta cu name = robots.");
+			//System.out.println("Nu exista tag-ul meta cu name = robots.");
+			ret="";
 		}
 		else
 		{

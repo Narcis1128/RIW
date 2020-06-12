@@ -1,7 +1,6 @@
 package crawler;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class Head {
 
@@ -9,7 +8,10 @@ public class Head {
 		Crawler crawl = new Crawler();
 		ArrayList<String> links = new ArrayList<String>();
 		links.add("http://riweb.tibeica.com/crawl/");
+		long start = System.nanoTime();
 		crawl.crawler(links, 100);
+		long elapsedTime = System.nanoTime() - start;
+		System.out.println((double)elapsedTime/1_000_000_000.0);
 	}
 
 }

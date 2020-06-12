@@ -14,7 +14,7 @@ import java.net.UnknownHostException;
 public class HttpReq {
 	static int incercari = 0;
 	public String cerereHttp(String cale, String domeniu, int port) throws UnknownHostException, IOException {
-		String cerereHTTP = "GET /"+cale+ " HTTP/1.1\r\nHost: "+domeniu+"\r\nUser-Agent: CLIENT RIW\r\nConnection: close\r\n\r\n";
+		String cerereHTTP = "GET /"+cale+ " HTTP/1.1\r\nHost: "+domeniu+"\r\nUser-Agent: RIWEB_CRAWLER\r\nConnection: close\r\n\r\n";
 		InetAddress intAddress = InetAddress.getByName(domeniu);
 		String ip = intAddress.getHostAddress();
 		Socket client = new Socket(ip,port);
@@ -68,6 +68,7 @@ public class HttpReq {
 			}
 			
 			htmlPath =  domeniu + "/" +cale;
+			//System.out.println(htmlPath);
 			if(!(htmlPath.endsWith(".html") || htmlPath.endsWith(".htm")) && !htmlPath.equals("/robots.txt")){
 				if(!htmlPath.endsWith("/")){
 					htmlPath += "/";
@@ -75,9 +76,9 @@ public class HttpReq {
 				htmlPath += "index.html";
 			}
 			File file = new File(htmlPath);
-			System.out.println(htmlPath);
+			//System.out.println(htmlPath);
             File dir = file.getParentFile();
-            System.out.println(dir);
+            //System.out.println(dir);
             if (!dir.exists())
             {
                 dir.mkdirs();

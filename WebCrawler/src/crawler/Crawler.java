@@ -17,15 +17,16 @@ import java.io.IOException;
 
 import java.net.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 public class Crawler{
 	LinkedList<String> coada;
 	HashSet<String> vizitate;
+	HashSet<String> domeniuVizitate;
 	HttpReq http;
 	Crawler(){
 		coada = new LinkedList<String>();
 		vizitate = new HashSet<String>();
+		domeniuVizitate = new HashSet<String>();
 		http = new HttpReq();
 	}
 	
@@ -60,18 +61,23 @@ public class Crawler{
 				}
 				else
 				{
-					String robot = http.cerereHttp("/robots.txt", domeniu, port);
-					if(robot != null)
+					if(!domeniuVizitate.contains(domeniu))
 					{
-						byte[] encoded = Files.readAllBytes(Paths.get(robot));
-						String robotText = new String(encoded);
-						if(!RobotParser.isAllowed(url, robotText))
+						String robot = http.cerereHttp("/robots.txt", domeniu, port);
+						domeniuVizitate.add(domeniu);
+						if(robot != null)
 						{
-							System.out.print("Interzis pentru explorare\n");
-							continue;
+							byte[] encoded = Files.readAllBytes(Paths.get(robot));
+							String robotText = new String(encoded);
+							if(!RobotParser.isAllowed(url, robotText))
+							{
+								System.out.print("Interzis pentru explorare\n");
+								continue;
+							}
 						}
 					}
 					String save = http.cerereHttp(cale,domeniu,port);
+					vizitate.add(urlCoada);
 					if(save != null)
 					{
 						ParseFile pf = new ParseFile(save);
@@ -103,7 +109,20 @@ public class Crawler{
 			}
 			else
 			{
+				String robot = http.cerereHttp("/robots.txt", domeniu, port);
+				domeniuVizitate.add(domeniu);
+				System.out.println("ajung");
+				if(robot != null)
+				{
+					String robotText = new String(robot);
+					if(!RobotParser.isAllowed(url, robotText))
+					{
+						System.out.print("Interzis pentru explorare\n");
+						continue;
+					}
+				}
 				String save = http.cerereHttp(cale,domeniu,port);
+				vizitate.add(urlCoada);
 				if(save != null)
 				{
 					ParseFile pf = new ParseFile(save);
